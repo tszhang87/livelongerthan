@@ -33,9 +33,29 @@ This is a static site. No build tools or dependencies are required. Birthdays ar
 - Analytics, once enabled, should count visits without capturing the birthday, exact age, or other sensitive inputs.
 - The site offers reflections, not predictions of individual lifespans. Animal life expectancy is approximate.
 
-## Planned: shared visitor presence
+## Shared visitor garden 🌿
 
-The idea is to show a little person for each current visitor, walking or sitting, waving goodbye after five minutes. Cross-visitor presence needs a realtime backend such as Cloudflare Workers + Durable Objects; **this is not implemented in this static version**.
+Implemented: each browser tab creates a random anonymous traveler that walks, stands, or sits in the garden. Its visit lasts **five minutes from arrival**, after which it waves goodbye. Visitors on separate devices see the same group through a Cloudflare Pages Function and D1 database, refreshed approximately every 20 seconds.
+
+**One-time Cloudflare setup required for the shared view:**
+
+1. In Cloudflare dashboard, open **Storage & databases → D1 SQL database** (sometimes shown under Workers & Pages → D1). Create a database named `livelongerthan-presence` on the Free plan.
+2. In your existing **Workers & Pages → livelongerthan** Pages project, select **Settings → Bindings → Add → D1 database**.
+3. Set variable name to **`PRESENCE_DB`** (case-sensitive), and select the `livelongerthan-presence` database. Add it in **Production**; optionally also in Preview.
+4. **Redeploy the latest production deployment** so the new binding takes effect.
+5. Visit `https://livelongerthan.com/api/presence`. The JSON should contain `"ready":true`. The API automatically creates its table and index on the first request — no manual SQL is needed.
+6. Open the main site in two separate private windows or browsers. Both should see two little travelers. Each figure leaves five minutes after entering, whether or not the tab remains open.
+
+Without the D1 binding, the website still works and shows **only your own local traveler** with an explicit setup-pending message; it does **not** claim others are present.
+
+### Privacy and implementation
+
+- The browser keeps a random UUID in tab-local `sessionStorage` for five minutes (refreshing within that period does not create a duplicate); older visits get a new ID on reload.
+- D1 only stores ephemeral random IDs and creation/expiration times. No name, birthdate, age, IP address, or location is written by this application.
+- Expired visitors are excluded immediately and rows are periodically deleted when requests arrive.
+- Shared figures are synchronized by polling (approximately 20 seconds), not instant WebSockets. The displayed count means **visits in the last five minutes**, not authenticated concurrent users.
+- The API caps stored active visitors to 300 and displays up to 60 figures to keep the scene readable.
+- Tests: `node --experimental-default-type=module --test tests/presence.test.mjs`.
 
 ## QA checklist
 
