@@ -1,0 +1,49 @@
+/* LiveLongerThan — a shared, anonymous five-minute garden. */
+.presence-section{margin:0 auto 68px}
+.presence-panel{position:relative;overflow:hidden;padding:30px 32px 20px;background:#eaf1e8;border:1px solid #d9e6d8;border-radius:25px;box-shadow:0 15px 40px #416e4a0a}
+.presence-head{display:flex;align-items:start;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.presence-kicker{font-size:11px;font-weight:800;letter-spacing:2px;color:#688b7a;margin:0 0 7px}
+.presence-head h2{font:normal clamp(24px,3.2vw,33px)/1.25 Georgia,'Songti SC',serif;color:#34574a;margin:0 0 7px}
+.presence-head p{font-size:14px;color:#728678;margin:0;max-width:590px}
+.presence-status{display:inline-flex;align-items:center;gap:9px;color:#4c7963;font-size:12px;font-weight:700;white-space:nowrap;padding:8px 12px;border-radius:20px;background:#f7faf5}
+.presence-dot{height:7px;width:7px;background:#78a38b;border-radius:50%;box-shadow:0 0 0 4px #78a38b20}
+.presence-garden{position:relative;isolation:isolate;height:211px;margin:20px 0 8px;overflow:hidden;border-radius:18px;background:linear-gradient(180deg,#f3f7ee 0%,#eff5ed 63%,#e0edda 64%,#d3e4ce 100%)}
+.presence-garden::before{content:'';position:absolute;z-index:0;bottom:-33px;left:-8%;height:105px;width:120%;background:#dbe9d3;border-radius:50% 45% 0 0}
+.presence-garden::after{content:'';position:absolute;z-index:0;bottom:-75px;right:-12%;width:70%;height:136px;background:#cbdcc5;border-radius:50% 55% 0 0}
+.presence-sun{position:absolute;right:54px;top:30px;width:41px;height:41px;background:#ffe9bb;border-radius:50%;box-shadow:0 0 0 15px #ffe9bb45}
+.presence-cloud{position:absolute;left:9%;top:28px;width:70px;height:19px;border-radius:30px;background:#fff9;filter:blur(.5px)}
+.presence-cloud::before{content:'';position:absolute;left:17px;top:-12px;width:33px;height:29px;background:#fff9;border-radius:50%}
+.presence-flower{position:absolute;z-index:1;bottom:8px;font-size:20px;color:#8bac83;opacity:.75;pointer-events:none}
+.presence-flower.one{left:5%}.presence-flower.two{left:32%}.presence-flower.three{left:66%}.presence-flower.four{left:90%}
+.presence-footnote{font-size:11px;color:#7e9281;text-align:center;margin:7px 0 0}
+/* Each visitor is a tiny CSS-drawn figure, not a user image. */
+.little-visitor{position:absolute;z-index:2;bottom:var(--bottom,19px);left:var(--left,50%);width:38px;height:77px;pointer-events:none;transform:translateX(-50%);opacity:0;animation:visitor-arrive .5s ease forwards}
+.little-visitor .shadow{position:absolute;bottom:0;left:5px;width:29px;height:6px;background:#53785a2a;border-radius:50%}
+.little-visitor .figure{position:absolute;inset:0;animation:visitor-bob 4.5s ease-in-out infinite;animation-delay:var(--delay,0s)}
+.little-visitor .head{position:absolute;top:11px;left:10px;width:19px;height:20px;background:var(--skin,#e6bd96);border-radius:45% 45% 49% 49%;z-index:4}
+.little-visitor .hair{position:absolute;top:8px;left:8px;width:22px;height:11px;background:var(--hair,#51493f);border-radius:14px 14px 5px 4px;z-index:5}
+.little-visitor .body{position:absolute;top:30px;left:9px;width:21px;height:24px;border-radius:8px 8px 5px 5px;background:var(--shirt,#7aa4a1);z-index:3}
+.little-visitor .arm{position:absolute;top:32px;width:7px;height:22px;background:var(--shirt,#7aa4a1);border-radius:7px;transform-origin:top center;z-index:2}
+.little-visitor .arm.left{left:5px;transform:rotate(18deg)}
+.little-visitor .arm.right{right:5px;transform:rotate(-18deg)}
+.little-visitor .leg{position:absolute;top:51px;width:8px;height:21px;border-radius:3px 3px 5px 5px;background:var(--pants,#667a79);transform-origin:top;z-index:2}
+.little-visitor .leg.left{left:10px}.little-visitor .leg.right{left:21px}
+.little-visitor.walk .figure{animation:visitor-walk 3.4s ease-in-out infinite;animation-delay:var(--delay,0s)}
+.little-visitor.walk .leg.left{animation:step-left 1s ease-in-out infinite}.little-visitor.walk .leg.right{animation:step-right 1s ease-in-out infinite}
+.little-visitor.walk .arm.left{animation:step-right 1s ease-in-out infinite}.little-visitor.walk .arm.right{animation:step-left 1s ease-in-out infinite}
+.little-visitor.sit .figure{transform:translateY(14px);animation:none}
+.little-visitor.sit .leg{top:50px;height:10px;transform:rotate(-72deg)}
+.little-visitor.sit .leg.left{left:10px}.little-visitor.sit .leg.right{left:22px;transform:rotate(65deg)}
+.little-visitor.sit::before{content:'';position:absolute;bottom:2px;left:3px;width:33px;height:4px;background:#b49c7f;border-radius:5px;z-index:1}
+.little-visitor.leaving .figure{animation:none;transform:translateY(0)}
+.little-visitor.leaving .arm.right{animation:visitor-wave .34s ease-in-out infinite alternate;transform-origin:top center}
+.little-visitor.leaving{animation:visitor-depart 1.9s ease-in forwards}
+@keyframes visitor-arrive{from{opacity:0;transform:translate(-50%,12px)}to{opacity:1;transform:translate(-50%,0)}}
+@keyframes visitor-depart{0%{opacity:1;transform:translate(-50%,0)}45%{opacity:1;transform:translate(-50%,-5px)}100%{opacity:0;transform:translate(calc(-50% + 15px),-12px)}}
+@keyframes visitor-wave{from{transform:rotate(-20deg)}to{transform:rotate(-150deg)}}
+@keyframes visitor-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
+@keyframes visitor-walk{0%,100%{transform:translateX(-6px)}50%{transform:translateX(6px)}}
+@keyframes step-left{0%,100%{transform:rotate(-22deg)}50%{transform:rotate(22deg)}}
+@keyframes step-right{0%,100%{transform:rotate(22deg)}50%{transform:rotate(-22deg)}}
+@media(max-width:650px){.presence-panel{padding:23px 16px 15px}.presence-head{gap:13px}.presence-garden{height:193px}.presence-status{font-size:11px}}
+@media(prefers-reduced-motion:reduce){.little-visitor,.little-visitor .figure,.little-visitor .leg,.little-visitor .arm{animation:none!important}.little-visitor{opacity:1}.little-visitor.leaving{opacity:0}}
